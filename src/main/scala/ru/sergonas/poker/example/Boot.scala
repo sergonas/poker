@@ -3,7 +3,8 @@ package ru.sergonas.poker.example
 import akka.actor.{ActorSystem, Props}
 import akka.io.IO
 import spray.can.Http
-object Boot extends App {
+
+object Boot {
   // we need an ActorSystem to host our application in
   implicit val system = ActorSystem("on-spray-can")
   // create and start our service actor

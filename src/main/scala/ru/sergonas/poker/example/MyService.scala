@@ -41,7 +41,8 @@ trait DemoService extends HttpService {
     println("got executionContext")
     actorRefFactory.dispatcher
   }
-  implicit def detachMagnet = DetachMagnet.fromExecutionContext(executionContext)
+
+  def detachMagnet = DetachMagnet.fromExecutionContext(executionContext)
 
   val demoRoute = {
     get {
@@ -53,7 +54,7 @@ trait DemoService extends HttpService {
         } ~
         path("stream1") {
           // we detach in order to move the blocking code inside the simpleStringStream into a future
-          detach() {
+          detach(detachMagnet) {
             respondWithMediaType(`text/html`) { // normally Strings are rendered to text/plain, we simply override here
               complete(simpleStringStream)
             }
@@ -69,7 +70,7 @@ trait DemoService extends HttpService {
         } ~
         path("stats") {
           complete {
-            actorRefFactory.actorFor("/user/IO-HTTP/listener-0")
+            actorRefFactory.actorSelection("/user/IO-HTTP/listener-0")
               .ask(Http.GetStats)(1.second)
               .mapTo[Stats]
           }
