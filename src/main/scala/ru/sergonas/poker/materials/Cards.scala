@@ -19,5 +19,5 @@ object Cards {
   import Rank._
 
   case class Card(suit: Suit, rank: Rank)
-
+  case class CardPair(l: Card, r: Card)
 }
