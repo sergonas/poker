@@ -7,6 +7,7 @@ import scala.concurrent.Await
 import scala.concurrent.duration._
 import ru.sergonas.poker.materials.Cards._
 import ru.sergonas.poker.materials.{Quit, Player}
+import scala.language.postfixOps
 
 /**
  * Created by Serega on 28.01.2015.
