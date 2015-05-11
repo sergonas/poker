@@ -5,12 +5,14 @@ import java.io.File
 import akka.actor._
 import akka.pattern.ask
 import org.parboiled.common.FileUtils
+import ru.sergonas.poker.materials.Cards._
 import spray.can.Http
 import spray.can.server.Stats
 import spray.http.MediaTypes._
 import spray.http.{ContentTypes, _}
 import spray.httpx.encoding.Gzip
 import spray.httpx.marshalling.Marshaller
+import spray.httpx.PlayTwirlSupport._
 import spray.routing.directives.CachingDirectives._
 import spray.routing.directives.DetachMagnet
 import spray.routing.{HttpService, RequestContext}
@@ -49,6 +51,9 @@ trait DemoService extends HttpService {
       pathSingleSlash {
         complete(index)
       } ~
+        path("card") {
+          complete(html.mainpage.render(Card(Suit.Spades, Rank.King)))
+        } ~
         path("ping") {
           complete("PONG!")
         } ~
@@ -115,6 +120,7 @@ trait DemoService extends HttpService {
         <p>Defined resources:</p>
         <ul>
           <li><a href="/ping">/ping</a></li>
+          <li><a href="/card">/card</a></li>
           <li><a href="/stream1">/stream1</a> (via a Stream[T])</li>
           <li><a href="/stream2">/stream2</a> (manually)</li>
           <li><a href="/stream-large-file">/stream-large-file</a></li>
