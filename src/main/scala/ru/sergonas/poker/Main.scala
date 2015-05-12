@@ -4,8 +4,10 @@ import akka.actor._
 import akka.io.IO
 import akka.pattern.ask
 import akka.util.Timeout
-import ru.sergonas.poker.example.{DemoServiceActor, DemoService}
+import ru.sergonas.poker.example.{WSServiceActor, DemoServiceActor, DemoService}
 import spray.can.Http
+import spray.can.server.UHttp
+import spray.can.websocket.WebSocketServerWorker
 import scala.concurrent.Await
 import scala.concurrent.duration._
 import ru.sergonas.poker.materials.Cards._
@@ -32,7 +34,8 @@ object Main extends App {
 
   // the handler actor replies to incoming HttpRequests
   val handler = system.actorOf(Props[DemoServiceActor], name = "handler")
+  val wsService = system.actorOf(Props[WSServiceActor], name = "myWsService")
 
-  IO(Http) ! Http.Bind(handler, interface = "localhost", port = 8080)
+//  IO(Http) ! Http.Bind(handler, interface = "localhost", port = 8080)
+  IO(UHttp) ! Http.Bind(wsService, interface = "localhost", port = 8080)
 }
-
