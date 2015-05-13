@@ -39,10 +39,7 @@ class DemoServiceActor extends Actor with DemoService {
 trait DemoService extends HttpService {
 
   // we use the enclosing ActorContext's or ActorSystem's dispatcher for our Futures and Scheduler
-  implicit def executionContext = {
-    println("got executionContext")
-    actorRefFactory.dispatcher
-  }
+  implicit def executionContext = actorRefFactory.dispatcher
 
   def detachMagnet = DetachMagnet.fromExecutionContext(executionContext)
 
@@ -53,6 +50,9 @@ trait DemoService extends HttpService {
       } ~
         path("card") {
           complete(html.mainpage.render(Card(Suit.Spades, Rank.King)))
+        } ~
+        path("websocket") {
+          complete(html.websockclient.render())
         } ~
         path("ping") {
           complete("PONG!")
@@ -121,6 +121,7 @@ trait DemoService extends HttpService {
         <ul>
           <li><a href="/ping">/ping</a></li>
           <li><a href="/card">/card</a></li>
+          <li><a href="/websocket">/websocket</a></li>
           <li><a href="/stream1">/stream1</a> (via a Stream[T])</li>
           <li><a href="/stream2">/stream2</a> (manually)</li>
           <li><a href="/stream-large-file">/stream-large-file</a></li>

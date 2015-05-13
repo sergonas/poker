@@ -19,6 +19,7 @@ libraryDependencies ++= {
     "io.spray" %% "spray-routing-shapeless2" % sprayV,
     "io.spray" %% "spray-caching" % sprayV,
     "io.spray" %% "spray-testkit" % sprayV % "test",
+    "io.spray" %%  "spray-json" % "1.3.2",
     "com.wandoulabs.akka" %% "spray-websocket" % "0.1.4",
     "com.typesafe.akka" %% "akka-actor" % akkaV,
     "com.typesafe.akka" %% "akka-testkit" % akkaV % "test"

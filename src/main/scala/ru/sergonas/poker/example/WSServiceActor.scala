@@ -1,6 +1,8 @@
 package ru.sergonas.poker.example
 
 import akka.actor._
+import spray.json._
+import ru.sergonas.poker.messaging.GameJsonProtocol._
 import spray.can.Http
 import spray.can.websocket.WebSocketServerWorker
 import spray.can.websocket.frame.TextFrame
@@ -9,19 +11,11 @@ import spray.routing.HttpServiceActor
 class WSServiceWorkerActor(val serverConnection: ActorRef) extends HttpServiceActor with WebSocketServerWorker  {
   override def businessLogic = {
     case x: TextFrame =>
-      log.info("Receives some: {}", x)
+      val frameStringValue = x.payload.utf8String
+      log.info("Receives some: {}", frameStringValue)
       sender() ! x
     case x => log.info("Received message: {}", x)
   }
-
-  def businessLogicNoUpgrade: Receive = {
-    implicit val refFactory: ActorRefFactory = context
-    runRoute {
-      getFromResourceDirectory("webapp")
-    }
-  }
-
-  override def receive = handshaking orElse businessLogicNoUpgrade orElse closeLogic
 }
 
 object WSServiceActor {
