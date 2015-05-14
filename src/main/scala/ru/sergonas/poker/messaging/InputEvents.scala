@@ -1,6 +1,16 @@
 package ru.sergonas.poker.messaging
 
+import spray.json._
+import spray.json.JsonParser.ParsingException
+
 object InputEvents {
+  def tryParseEvent(input: String): Either[InputEvent, String] = {
+    val json = try input.parseJson catch {
+      case ex: ParsingException => return Right("Not a valid JSON")
+    }
+    Left(Login("nope"))
+  }
+
   trait InputEvent extends GameEvent
 
   case class Login(username: String) extends InputEvent
