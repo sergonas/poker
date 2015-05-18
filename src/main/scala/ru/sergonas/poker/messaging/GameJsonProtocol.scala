@@ -5,5 +5,5 @@ import spray.json.DefaultJsonProtocol
 object GameJsonProtocol extends DefaultJsonProtocol {
   import InputEvents._
 
-  implicit val loginFormat = jsonFormat1(Login)
+  implicit val loginFormat = jsonFormat2(InnerEventRepr)
 }

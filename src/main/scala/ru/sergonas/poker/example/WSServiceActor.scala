@@ -4,7 +4,6 @@ import akka.actor._
 import akka.util.ByteString
 import ru.sergonas.poker.messaging.{Player, InputEvents}
 
-import ru.sergonas.poker.messaging.GameJsonProtocol._
 import spray.can.Http
 import spray.can.websocket.WebSocketServerWorker
 import spray.can.websocket.frame.TextFrame
